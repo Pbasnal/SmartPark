@@ -1,27 +1,7 @@
 import bluetooth, requests, pprint
 import subprocess
 import json
-import jsonpickle
 
-
-class Car:
-  CarId = ""
-  Rssi = 0
-
-class ParkingData:
-
-  ParkingZone = ""
-  Cars = []
-
-  def show(self):
-    print("<Parking Data>")
-    print("\tParkingZone: " + self.ParkingZone)
-    print("\tCars: ")
-    #print(self.Cars)
-    for c in self.Cars:
-      print("CarId: " + c.CarId)
-      print("Rssi: " + str(c.Rssi))
-      
 
 class BlueIOT:
   def getDeviceId(self):
@@ -57,15 +37,11 @@ class SmartPark:
       car = Car()
       car.CarId = dev[0]
       car.Rssi = 0
-      parking.Cars.append(car)
+      parking.Cars.append({"car_ID": dev[0], "signal_strength": 0})
 
-    p = {"parking": parking.ParkingZone, "cars": vars(parking.Cars)}
-    print(p);
-    #requests.post(self.url, data=parking)
-
-    #parking.show()
-
-    #print json.dumps(vars(parking))
+    postData = json.dumps({"parking": parking.ParkingZone, "cars": parking.Cars})
+    print(postData);
+    requests.post(self.url, data=postData)
     
     return True
 
