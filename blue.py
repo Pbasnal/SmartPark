@@ -45,7 +45,7 @@ smartPark = SmartPark()
 
 while True:
   result = smartPark.findPlacesAndPost()
-  print result
+  #print result
   print
   #time.sleep(10)
 
